@@ -31,12 +31,13 @@ class StudentInformation extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'Aleksandar Ivanovski',style: TextStyle(color: Colors.white, fontSize: 30),
+              'Aleksandar Ivanovski',
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             Text(
-              '186063',style: TextStyle(color: Colors.white, fontSize: 22),
+              '186063',
+              style: TextStyle(color: Colors.white, fontSize: 22),
             ),
-
           ],
         ),
       ),
