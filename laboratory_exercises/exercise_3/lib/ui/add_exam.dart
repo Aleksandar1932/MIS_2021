@@ -16,7 +16,7 @@ class _AddSlotState extends State<AddSlot> {
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
   final _roomIdController = TextEditingController();
-  DateTime _date = DateTime.now();
+  DateTime? _date;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _AddSlotState extends State<AddSlot> {
 
               TextButton(
                   onPressed: () {
-                    DatePicker.showDatePicker(context,
+                    DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
                         minTime:
                             DateTime.now().subtract(Duration(days: 365 * 3)),
@@ -90,7 +90,7 @@ class _AddSlotState extends State<AddSlot> {
                     }, currentTime: DateTime.now());
                   },
                   child: Text(
-                    'Select Date',
+                  _date != null ? _date.toString() : "Select a Date",
                     style: TextStyle(color: Colors.blue),
                   )),
 
@@ -102,13 +102,12 @@ class _AddSlotState extends State<AddSlot> {
                                 description: _descriptionController.text,
                                 location: _locationController.text,
                                 roomId: _roomIdController.text,
-                                startTime: _date)),
+                                startTime: _date ?? DateTime.now())),
                             Navigator.pop(context),
                             Navigator.pop(context)
                           }
                       },
                   child: Text("Add"))
-              // Add TextFormFields and ElevatedButton here.
             ],
           ),
         )));
