@@ -1,7 +1,7 @@
 import 'package:exercise_3/model/slot.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddSlot extends StatefulWidget {
   const AddSlot({Key? key, required this.addSlot}) : super(key: key);
@@ -11,11 +11,13 @@ class AddSlot extends StatefulWidget {
 }
 
 class _AddSlotState extends State<AddSlot> {
-  // create me a flutter form with a key and fields for description, location, roomId and picker for date
   final _formKey = GlobalKey<FormState>();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
   final _roomIdController = TextEditingController();
+  final _latitudeController = TextEditingController();
+  final _longitudeController = TextEditingController();
+
   DateTime? _date;
 
   @override
@@ -41,7 +43,6 @@ class _AddSlotState extends State<AddSlot> {
                   },
                 ),
               ),
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
@@ -56,7 +57,6 @@ class _AddSlotState extends State<AddSlot> {
                   },
                 ),
               ),
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
@@ -71,7 +71,34 @@ class _AddSlotState extends State<AddSlot> {
                   },
                 ),
               ),
-
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: TextFormField(
+                  controller: _latitudeController,
+                  decoration: InputDecoration(labelText: 'Latitude'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter latitude';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: TextFormField(
+                  controller: _longitudeController,
+                  decoration: InputDecoration(labelText: 'Longitude'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter longitude';
+                    }
+                    return null;
+                  },
+                ),
+              ),
               TextButton(
                   onPressed: () {
                     DatePicker.showDateTimePicker(context,
@@ -90,10 +117,9 @@ class _AddSlotState extends State<AddSlot> {
                     }, currentTime: DateTime.now());
                   },
                   child: Text(
-                  _date != null ? _date.toString() : "Select a Date",
+                    _date != null ? _date.toString() : "Select a Date",
                     style: TextStyle(color: Colors.blue),
                   )),
-
               ElevatedButton(
                   onPressed: () => {
                         if (_formKey.currentState!.validate())
@@ -102,12 +128,15 @@ class _AddSlotState extends State<AddSlot> {
                                 description: _descriptionController.text,
                                 location: _locationController.text,
                                 roomId: _roomIdController.text,
-                                startTime: _date ?? DateTime.now())),
+                                startTime: _date ?? DateTime.now(),
+                                position: LatLng(
+                                    double.parse(_latitudeController.text),
+                                    double.parse(_longitudeController.text)))),
                             Navigator.pop(context),
                             Navigator.pop(context)
                           }
                       },
-                  child: Text("Add"))
+                  child: Text("Add")),
             ],
           ),
         )));
